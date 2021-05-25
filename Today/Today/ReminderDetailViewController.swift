@@ -8,13 +8,12 @@
 import UIKit
 
 class ReminderDetailViewController: UITableViewController {
-    
     enum ReminderRow: Int, CaseIterable {
-    case title
-    case date
-    case time
-    case notes
-        
+        case title
+        case date
+        case time
+        case notes
+
         func displayText(for reminder: Reminder?) -> String? {
             switch self {
             case .title:
@@ -27,11 +26,11 @@ class ReminderDetailViewController: UITableViewController {
                 return reminder?.notes
             }
         }
-       
+
         var cellImage: UIImage? {
             switch self {
             case .title:
-               return nil
+                return nil
             case .date:
                 return UIImage(systemName: "calendar.circle")
             case .time:
@@ -41,20 +40,21 @@ class ReminderDetailViewController: UITableViewController {
             }
         }
     }
-    
+
     var reminder: Reminder?
-    
+
     func configure(with reminder: Reminder) {
         self.reminder = reminder
     }
 }
+
 extension ReminderDetailViewController {
     static let reminderDetailCellIdentifier = "ReminderDetailCell"
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ReminderRow.allCases.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: Self.reminderDetailCellIdentifier, for: indexPath)
         let row = ReminderRow(rawValue: indexPath.row)
