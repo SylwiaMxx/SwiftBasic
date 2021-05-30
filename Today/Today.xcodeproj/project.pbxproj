@@ -21,6 +21,7 @@
 		0D3954B026626A050078CDF7 /* EditNotesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3954AF26626A050078CDF7 /* EditNotesCell.swift */; };
 		0D4D551B265A48230067BEC6 /* ReminderListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D551A265A48230067BEC6 /* ReminderListCell.swift */; };
 		0D4D551F265A50720067BEC6 /* ReminderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4D551E265A50720067BEC6 /* ReminderDetailViewController.swift */; };
+		0DAF620F26637D8200840D39 /* ReminderDetailEditDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DAF620E26637D8200840D39 /* ReminderDetailEditDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		0D3954AF26626A050078CDF7 /* EditNotesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNotesCell.swift; sourceTree = "<group>"; };
 		0D4D551A265A48230067BEC6 /* ReminderListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListCell.swift; sourceTree = "<group>"; };
 		0D4D551E265A50720067BEC6 /* ReminderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDetailViewController.swift; sourceTree = "<group>"; };
+		0DAF620E26637D8200840D39 /* ReminderDetailEditDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDetailEditDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				0D4D551E265A50720067BEC6 /* ReminderDetailViewController.swift */,
 				0D39549E26624BC10078CDF7 /* ReminderListDataSource.swift */,
 				0D3954A1266250600078CDF7 /* ReminderDetailViewDataSource.swift */,
+				0DAF620E26637D8200840D39 /* ReminderDetailEditDataSource.swift */,
 			);
 			path = Today;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 				0D3954AD266269500078CDF7 /* EditDateCell.swift in Sources */,
 				0D294075265969FA00EAE509 /* Reminder.swift in Sources */,
 				0D39549F26624BC10078CDF7 /* ReminderListDataSource.swift in Sources */,
+				0DAF620F26637D8200840D39 /* ReminderDetailEditDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
