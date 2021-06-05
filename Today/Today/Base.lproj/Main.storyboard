@@ -15,9 +15,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="g9T-nS-KRd" userLabel="Progress Header View">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMc-Uw-Xnx" userLabel="Progress Container View">
+                                    <rect key="frame" x="57" y="70" width="290" height="274"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WzD-7n-lEK" userLabel="Percent Complete View">
+                                            <rect key="frame" x="0.0" y="128" width="290" height="146"/>
+                                            <color key="backgroundColor" systemColor="systemTealColor"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="146" id="Zsz-Lg-Ztn"/>
+                                            </constraints>
+                                        </view>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83B-Vh-NCf" userLabel="Percent Incomplete View">
+                                            <rect key="frame" x="0.0" y="0.0" width="290" height="132"/>
+                                            <color key="backgroundColor" systemColor="systemIndigoColor"/>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="WzD-7n-lEK" firstAttribute="top" secondItem="83B-Vh-NCf" secondAttribute="bottom" constant="-4" id="Iap-6U-Vqm"/>
+                                        <constraint firstAttribute="width" secondItem="uMc-Uw-Xnx" secondAttribute="height" multiplier="1:1" id="JzG-fN-KNE"/>
+                                        <constraint firstAttribute="trailing" secondItem="83B-Vh-NCf" secondAttribute="trailing" id="MHk-18-czb"/>
+                                        <constraint firstItem="83B-Vh-NCf" firstAttribute="top" secondItem="uMc-Uw-Xnx" secondAttribute="top" id="gM8-qX-K3A"/>
+                                        <constraint firstAttribute="trailing" secondItem="WzD-7n-lEK" secondAttribute="trailing" id="gNk-NI-4u8"/>
+                                        <constraint firstItem="WzD-7n-lEK" firstAttribute="leading" secondItem="uMc-Uw-Xnx" secondAttribute="leading" id="olj-zP-L4v"/>
+                                        <constraint firstAttribute="bottom" secondItem="WzD-7n-lEK" secondAttribute="bottom" id="utH-27-kKn"/>
+                                        <constraint firstItem="WzD-7n-lEK" firstAttribute="top" secondItem="83B-Vh-NCf" secondAttribute="bottom" constant="-4" id="xM6-3O-6Xl"/>
+                                        <constraint firstItem="83B-Vh-NCf" firstAttribute="leading" secondItem="uMc-Uw-Xnx" secondAttribute="leading" id="xc2-At-ymV"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="uMc-Uw-Xnx" firstAttribute="width" secondItem="g9T-nS-KRd" secondAttribute="width" multiplier="0.7" id="6Tq-R2-DwQ"/>
+                                <constraint firstAttribute="bottom" secondItem="uMc-Uw-Xnx" secondAttribute="bottom" constant="70" id="Y0D-CC-r01"/>
+                                <constraint firstItem="uMc-Uw-Xnx" firstAttribute="top" secondItem="g9T-nS-KRd" secondAttribute="top" constant="70" id="fZQ-1L-Ywq"/>
+                                <constraint firstItem="uMc-Uw-Xnx" firstAttribute="leading" secondItem="g9T-nS-KRd" secondAttribute="leading" constant="57" id="gSK-dj-sHA"/>
+                                <constraint firstItem="uMc-Uw-Xnx" firstAttribute="centerY" secondItem="g9T-nS-KRd" secondAttribute="centerY" id="kbd-aM-Lbf"/>
+                                <constraint firstAttribute="trailing" secondItem="uMc-Uw-Xnx" secondAttribute="trailing" constant="57" id="nXo-FG-ZQS"/>
+                                <constraint firstItem="uMc-Uw-Xnx" firstAttribute="centerX" secondItem="g9T-nS-KRd" secondAttribute="centerX" id="oww-MB-T5S"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ReminderListCell" rowHeight="99" id="Ddt-n2-8SE" customClass="ReminderListCell" customModule="Today" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="99"/>
+                                <rect key="frame" x="0.0" y="442" width="414" height="99"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ddt-n2-8SE" id="lEa-y9-6ue">
                                     <rect key="frame" x="0.0" y="0.0" width="383" height="99"/>
@@ -78,7 +122,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="Agd-mZ-IB1">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="QeM-M9-HCS">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="QeM-M9-HCS">
                             <rect key="frame" x="117.5" y="5.5" width="179" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -94,6 +138,9 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="filterSegmentedControl" destination="QeM-M9-HCS" id="uQL-O2-M0D"/>
+                        <outlet property="percentCompleteHeightConstraint" destination="Zsz-Lg-Ztn" id="u1Z-WN-M5Y"/>
+                        <outlet property="percentIncompleteView" destination="uMc-Uw-Xnx" id="TWS-fS-wij"/>
+                        <outlet property="progressContainerView" destination="uMc-Uw-Xnx" id="sWg-in-bvW"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Sb-dd-Tif" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -222,6 +269,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fkm-1v-Rcf">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" systemColor="systemBlueColor"/>
+                        <color key="barTintColor" systemColor="secondarySystemBackgroundColor"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sfO-ic-bj3">
@@ -242,8 +291,20 @@
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemIndigoColor">
+            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemTealColor">
+            <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
