@@ -21,7 +21,7 @@ class EditDateCell: UITableViewCell {
     
     func configure(date: Date, changeAction: @escaping DateChangeAction) {
         datePicker.date = date
-        self.dateChangeAction =  changeAction
+        self.dateChangeAction = changeAction
     }
     
     @objc
