@@ -2,11 +2,11 @@ import UIKit
 
 class ReminderListViewController: UITableViewController {
    
-    @IBOutlet var filterSegmentedControl: UISegmentedControl!
-    @IBOutlet var progressContainerView: UIView!
-    @IBOutlet var percentCompleteView: UIView!
-    @IBOutlet var percentIncompleteView: UIView!
-    @IBOutlet var percentCompleteHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var filterSegmentedControl: UISegmentedControl!
+    @IBOutlet private var progressContainerView: UIView!
+    @IBOutlet private var percentCompleteView: UIView!
+    @IBOutlet private var percentIncompleteView: UIView!
+    @IBOutlet private var percentCompleteHeightConstraint: NSLayoutConstraint!
     
     static let showDetailSegueIdentifier = "ShowReminderDetailSegue"
     static let mainStoryboardName = "Main"
@@ -37,10 +37,19 @@ class ReminderListViewController: UITableViewController {
     override func viewDidLoad() {
            super.viewDidLoad()
            reminderListDataSource = ReminderListDataSource(reminderCompletedAction: { reminderIndex in
-               self.tableView.reloadRows(at: [IndexPath(row: reminderIndex, section: 0)], with: .automatic)
+            DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [IndexPath(row: reminderIndex, section: 0)], with: .automatic)
                self.refreshProgressView()
+            }
            }, reminderDeletedAction: {
+            DispatchQueue.main.async {
                self.refreshProgressView()
+            }
+           },  remindersChangedAction: {
+            DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.refreshProgressView()
+            }
            })
            tableView.dataSource = reminderListDataSource
        }
@@ -75,10 +84,11 @@ class ReminderListViewController: UITableViewController {
     private func addReminder() {
         let storyboard = UIStoryboard(name: Self.mainStoryboardName, bundle: nil)
         let detailViewController: ReminderDetailViewController = storyboard.instantiateViewController(identifier: Self.detailViewControllerIdentifier)
-        let reminder = Reminder(title: "New Reminder", dueDate: Date())
+        let reminder = Reminder(id: UUID() .uuidString, title: "New Reminder", dueDate: Date())
         detailViewController.configure(with: reminder, isNew: true, addAction: { reminder in
-            self.reminderListDataSource?.add(reminder)
-            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            if let index = self.reminderListDataSource?.add(reminder) {
+                          self.tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                      }
         })
         let navigationController = UINavigationController(rootViewController: detailViewController)
         present(navigationController, animated: true, completion: nil)
@@ -94,5 +104,6 @@ class ReminderListViewController: UITableViewController {
                self.progressContainerView.layoutSubviews()
            }
        }
+    
 }
 

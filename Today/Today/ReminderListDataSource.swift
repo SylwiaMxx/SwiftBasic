@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import EventKit
 
 class ReminderListDataSource: NSObject {
     typealias ReminderCompletedAction = (Int) -> Void
     typealias ReminderDeletedAction = () -> Void
+    typealias RemindersChangedAction = () -> Void
     
     enum Filter: Int {
         case today
@@ -31,8 +33,11 @@ class ReminderListDataSource: NSObject {
     
     var filter: Filter = .today
     
+    
+    
+    
     var filteredReminders: [Reminder] {
-        return Reminder.testData.filter{ filter.shouldInclude(date: $0.dueDate) } .sorted {$0.dueDate < $1.dueDate}
+        return reminders.filter { filter.shouldInclude(date: $0.dueDate) } .sorted { $0.dueDate < $1.dueDate }
     }
     
     var percentComplete: Double {
@@ -43,31 +48,67 @@ class ReminderListDataSource: NSObject {
         return numComplete / Double(filteredReminders.count)
     }
     
+    private let eventStore = EKEventStore()
+    
+    private var reminders: [Reminder] = []
     private var reminderCompletedAction: ReminderCompletedAction?
     private var reminderDeletedAction: ReminderDeletedAction?
+    private var remindersChangedAction: RemindersChangedAction?
         
-    init(reminderCompletedAction: @escaping ReminderCompletedAction, reminderDeletedAction: @escaping ReminderDeletedAction) {
+    init(reminderCompletedAction: @escaping ReminderCompletedAction, reminderDeletedAction: @escaping ReminderDeletedAction, remindersChangedAction: @escaping RemindersChangedAction) {
             self.reminderCompletedAction = reminderCompletedAction
             self.reminderDeletedAction = reminderDeletedAction
+            self.remindersChangedAction = remindersChangedAction
             super.init()
+        
+        requestAccess { (authorized) in
+            if authorized {
+                self.readAllReminders()
+                NotificationCenter.default.addObserver(self, selector: #selector(self.storeChanged(_:)), name: .EKEventStoreChanged, object: self.eventStore)
+            }
         }
+    }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .EKEventStoreChanged, object: self.eventStore)
+    }
+    
+    @objc
+    func storeChanged(_ notification: NSNotification) {
+        requestAccess { authorized in
+            if authorized {
+                self.readAllReminders()
+                
+            }
+        }
+    }
     
     func update(_ reminder: Reminder, at row: Int) {
-        Reminder.testData[row] = reminder
+        let index = self.index(for: row)
+       reminders[index] = reminder
+        
     }
     
     func delete(at row: Int) {
-        let index = self.index(ofAccessibilityElement: row)
-            Reminder.testData.remove(at: index)
+        let index = self.index(for: row)
+        reminders.remove(at: index)
         }
     
     func reminder(at row: Int) -> Reminder {
         return filteredReminders[row]
     }
     
-    func add(_ reminder: Reminder) {
-        Reminder.testData.insert(reminder, at: 0)
+    func add(_ reminder: Reminder) -> Int? {
+        reminders.insert(reminder, at: 0)
+        return filteredReminders.firstIndex(where: { $0.id == reminder.id })
+    }
+    
+    func index(for filteredIndex: Int) -> Int {
+        let filteredReminder = filteredReminders[filteredIndex]
+        guard let index = reminders.firstIndex(where: { $0.id == filteredReminder.id }) else {
+                    fatalError("Couldn't retrieve index in source array")
+            }
+        return index
     }
 }
 
@@ -144,6 +185,46 @@ extension Reminder {
             } else {
                 return Self.futureDateFormatter.string(from: dueDate)
             }
+        }
+    }
+}
+
+extension ReminderListDataSource {
+    private var isAvailable: Bool {
+        EKEventStore.authorizationStatus(for: .reminder) == .authorized
+    }
+    
+    private func requestAccess(completion: @escaping (Bool) -> Void) {
+        let currentStatus = EKEventStore.authorizationStatus(for: .reminder)
+        guard currentStatus == .notDetermined else {
+            completion(currentStatus == .authorized)
+            return
+        }
+        eventStore.requestAccess(to: .reminder) { (success, error) in completion(success)
+            
+        }
+    }
+    
+    private func readAllReminders() {
+        guard isAvailable else { return }
+        let predicate = eventStore.predicateForReminders(in: nil)
+        eventStore.fetchReminders(matching: predicate) { (ekReminders) in
+            guard let ekReminders = ekReminders else {
+                self.reminders = []
+                return
+            }
+            self.reminders = ekReminders.compactMap {
+                guard let dueDate = $0.alarms?.first?.absoluteDate else  {
+                    return nil
+                }
+                let reminder = Reminder (id: $0.calendarItemIdentifier,
+                                         title: $0.title,
+                                         dueDate: dueDate,
+                                         notes: $0.notes,
+                                         isComplete: $0.isCompleted)
+                return reminder
+            }
+            self.remindersChangedAction?()
         }
     }
 }
